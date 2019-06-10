@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        input text {
+            outline: none;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div style="margin: 0 auto;height: 500px;width: 500px;border: 1px red solid" id="itany">
+    <br>
+    <div style="margin: 0 auto ;width: 200px;border: 1px red">
+        名 字:<input type="text" v-model="user.name"><br>
+        年 龄:<input type="text" v-model="user.age"><br>
+        邮 箱:<input type="text" v-model="user.email">
+        <input type="button" value="添 加 用 户" style="width: 172px;" v-on:click="addUser">
+    </div>
+    <br>
+    <table border="1" cellpadding="0" cellspacing="0" width="498">
+        <thead>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>邮箱</th>
+        <th>操作</th>
+        </thead>
+        <tbody>
+        <tr v-for="(user,index) in users" style="text-align: center">
+            <td>{{index+1}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td>{{user.email}}</td>
+            <td><input type="button" value="删除" v-on:click="delUser(index)"></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="button" value="删除所有" v-on:click="delUser(-1)">
+
+</div>
+
+<script>
+    new Vue({
+        el: "#itany",
+        data: {
+            users: [
+                {name: "tom", age: 18, email: "tom@163.com"},
+                {name: "tony", age: 19, email: "tong@163.com"},
+                {name: "jack", age: 20, email: "jock@163.com"},
+            ],
+            user: {},
+        },
+        methods: {
+            addUser: function () {
+                this.users.push(this.user)
+                this.user={}
+            },
+            delUser: function (index) {
+                if(index==-1){
+                //删除所有
+                    console.log("确定要删除所有用户么?")
+                    this.users=[]
+                }else {
+                    console.log("确定要删除用户"+this.users[index].name+"么？")
+                    this.users.splice(index, 1)
+                }
+
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="hello">
+    <!--v-model="name":数据绑定到data中name上-->
+    用户名:<input type="text" v-model="username">
+    <br>
+    {{username}}
+</div>
+<div id="fff">
+    <ul>
+        <!--普通循环-->
+        <!--<li v-for="value in arr1">{{value}}</li>-->
+
+        <!--键值对循环-->
+        <!--<li v-for="(v,k) in obj">{{k}}=={{v}}</li>-->
+
+        <!--更新元素时可以重用元素，提高效率-->
+        <li v-for="(v,k) in arr2" :key="k">{{k}}=={{v}}</li>
+    </ul>
+</div>
+<script>
+    new Vue({
+        el: "#hello",
+        data: {
+            username: "",
+        }
+    });
+    new Vue({
+        el: "#fff",
+        data: {
+            arr1: [1, 3, 5, 7, 9, 6, 3],
+            obj: {id: 3, username: 'zhangsan', password: '111111'},
+            arr2: [1, 2, 3, 4, 5, 5, 5]
+        }
+    })
+</script>
+</body>
+</html>

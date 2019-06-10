@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>指令：绑定事件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itanys">
+    <input type="button" v-on:click="add" value="点我">
+    <input type="button" v-on:mouseover="show" value="鼠标经过">
+    <input type="button" v-on:dblclick="add" value="鼠标双击">
+    {{arr}}
+</div>
+<script>
+    new Vue({
+        el:'#itanys',
+        data:{
+            arr:[12,22,32,43,44],
+        },
+        methods:{
+            show:function () {
+                console.log("hello")
+            },
+            add(){
+                this.arr.push(666)
+            }
+        },
+
+    })
+
+    // document.getElementById("dd").onmo
+</script>
+</body>
+</html>

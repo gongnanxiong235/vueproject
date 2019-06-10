@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>指令：v-show</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <input type="button" v-model="b_content" v-on:click="turn()">
+    <div style="width: 300px;height: 200px;background-color: red" v-show="flag"></div>
+</div>
+<script>
+    new Vue({
+        el:"#itany",
+        data:{
+            flag:true,
+            b_content:'隐藏'
+        },
+        methods:{
+            turn:function () {
+                this.flag=!this.flag
+                if(this.b_content=="隐藏"){
+                    this.b_content="显示"
+                }else {
+                    this.b_content="隐藏"
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
