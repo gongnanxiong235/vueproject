@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <h3>msg:{{msg}}</h3>
+    <button @click="changeMsg">改变msg的值</button>
+    <button @click="changeDate">改变date的值</button>
+    <h3>reversemsg:{{reversemsg}}</h3>
+    <h3>date:{{date}}</h3>
+    <h3>now:{{now}}</h3>
+</div>
+<button onclick="fn()">开始测试</button>
+<script>
+
+    var fn=function () {
+        setInterval(function () {
+            console.log(aaa.reversemsg)
+        },1000)
+    }
+    var aaa=new Vue({
+        el: "#itany",
+        data: {
+            msg: "welcome",
+            date: new Date()
+        },
+        methods: {
+            changeMsg() {
+                console.log(Date.now())
+                this.msg = 'hello'
+            },
+            changeDate() {
+                console.log(Date.now())
+            }
+        },
+        //计算属性:只有依赖发生改变时，计算属性才会重新求值，读缓存
+        computed: {
+            //用这种方式代表get计算属性，如果要set计算属性的值，这种写法是做不到的
+            reversemsg: function () {
+                console.log(Date.now())
+                return this.msg.split("").reverse().join("")
+            },
+            reversemsg1:{
+                get:function () {
+
+                },
+                set:function () {
+                    
+                }
+            },
+            now:function () {
+                return Date.now()
+            }
+        }
+    })
+</script>
+</body>
+</html>

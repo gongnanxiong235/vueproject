@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>属性绑定</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <!--数据的绑定v-bind:src='url'的简写-->
+    <img :src="url" :width="w" :height="h">
+</div>
+<script>
+    new Vue({
+        el: "#itany",
+        data: {
+            url: "https://www.baidu.com/img/baidu_jgylogo3.gif",
+            w: "500px",
+            h: "px"
+        }
+    })
+</script>
+</body>
+</html>

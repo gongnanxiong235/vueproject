@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标拖拽</title>
+    <script src="../js/vue.js"></script>
+    <script src="../util/utils.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+    </style>
+</head>
+<body>
+<div id="itany">
+    <!--用事件的方式实现拖拽-->
+    <div style="width: 100px;height: 100px; background-color: blue;position: relative" @mousedown="move">
+        {{positionX}}<br>
+        {{positionY}}
+    </div>
+
+    <!--用自定义指令的方式实现拖拽-->
+    <div style="width: 100px;height: 100px; background-color: blue;position: absolute;top:0;right: 0" v-hello>
+        {{positionX}}<br>
+        {{positionY}}
+    </div>
+</div>
+<script>
+    var vm=new Vue({
+        el: "#itany",
+        data: {
+            positionX: 0,
+            positionY: 0,
+            user:{name:'zhangsan'}
+
+        },
+        // watch:{
+        //     positionX:function (newValue,oldValue) {
+        //         // console.log(newValue)
+        //         // console.log(oldValue)
+        //     }
+        // },
+        directives: {
+            hello: function (el) {
+                el.onmousedown = function (event) {
+                    var oper = new operate()
+                    vm.positionX=el.offsetLeft
+                    vm.positionY=el.offsetTop
+                    console.log(vm.user)
+                    console.log(this)
+                    console.log(vm.positionX)
+                    console.log(vm.positionY)
+                    oper.slide(event)
+                }
+            }
+        },
+        /**
+         * clientX : 是用来获取鼠标点击的位置距离 当前窗口 左边的距离
+         clientY: 是用来获取鼠标点击的位置距离 当前窗口 上边的距离
+         offsetWidth: 用来获取当前拖拽元素 自身的宽度
+         offsetHeight:用来获取当前拖拽元素 自身的高度
+         document.documentElement.clientHeight ：屏幕的可视高度
+         document.documentElement.clientWidth：屏幕的可视宽度
+         */
+        methods: {
+            //e:默认的事件名称，可以根据事件名称获取到当前对象
+            move: function (e) {
+                var oper = new operate()
+                this.positionX=e.target.offsetLeft
+                this.positionY=e.target.offsetTop
+                oper.slide(e)
+                console.log(this)
+            },
+        }
+    })
+</script>
+</body>
+</html>

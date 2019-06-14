@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全局过滤器</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <span>{{msg | changeNumber}}</span><br>
+    <span>{{msg2 | fix(2)}}</span><br>
+    <span>aa:{{currentTime | haha}}</span><br>
+    <span>{{msg2 | fix(2)}}</span><br>
+</div>
+<script>
+    /**
+     * 全局过滤器:
+     *
+     */
+    //不传参过滤器
+    Vue.filter('changeNumber', function (data) {
+        //data:需要过滤的数据
+        // console.log(data)
+        if (data < 10) {
+            return "0" + data
+        }
+    })
+    //传参过滤器
+    Vue.filter('fix', (data, n) => {
+        //自定义四舍五入
+        return f(data, n)
+    })
+    Vue.filter('haha', data => {
+        return parseInt(data / 1000)
+    })
+
+    var date = new Date()
+    var hello = new Vue({
+        el: "#itany",
+        data: {
+            msg: 8,
+            msg2: 12.456576574554,
+            currentTime: date.getTime(),
+        },
+        //局部过滤器
+        filters: {
+            fix1: (data, n) => {
+                //自定义四舍五入
+                return f(data, n)
+            }
+        }
+    })
+
+    //自定义四舍五入的方法
+    function f(data, n) {
+        if ((data + "").indexOf(".") == -1) {
+            console.log(11)
+            return data
+        }
+        console.log(22)
+        var s_data = (data + "").split(".")
+        var s_data_before = s_data[0]
+        var s_data_sfter = s_data[1]
+        if (s_data_sfter.length > n) {
+            var s_data_sfter_1 = s_data_sfter.substring(0, n)
+            var s_data_sfter_2 = s_data_sfter.substring(n, n + 1)
+            console.log("s_data_sfter:" + s_data_sfter_1)
+            console.log("flag_value:" + s_data_sfter_2)
+            if (parseInt(s_data_sfter_2) >= 5) {
+                s_data_sfter = (parseInt(s_data_sfter_1) + 1) + ""
+                console.log(s_data_sfter)
+            }
+        }
+        var result_before = s_data_before + "." + s_data_sfter
+        if (result_before.split(".")[1].length > n) {
+            return parseInt(result_before.split(".")[0] + 1) + "." + result_before.split(".")[1].substr(0, n)
+        }
+        return result_before
+
+    }
+</script>
+</body>
+</html>

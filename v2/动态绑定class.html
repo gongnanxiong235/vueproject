@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态绑定class</title>
+    <style>
+        .aa{
+            color: red;
+            font-size: 50px;
+        }
+        .bb{
+            background-color: gainsboro;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <!--<div :class="aa">taojiji</div>-->
+    <!--<div :class="[aa,bb]">taojiji</div>-->
+
+    <!--json的方式-->
+    <!--<div :class="{aa:true,bb:false}">taojiji</div>-->
+
+    <!--json的方式2:-->
+    <div :class="dd">taojiji</div>
+    <div>{{dd}}</div>
+</div>
+<script>
+    new Vue({
+        el:"#itany",
+        data:{
+            aa:"aa",
+            bb:"bb",
+            num:true,
+            dd:{aa:true,bb:true}
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟360搜搜</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/vue-resource.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .current {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="itany">
+    <!--@keydown.up.prevent="" @keydowm.down.prevent=""-->
+    <input type="text" v-model="keyword" @keyup="seach($event)" @keydown.up.prevent="keuUp"
+           @keydown.down.prevent="keyDown">
+    <ul>
+        <!--//:class="{current:index==tag}"-->
+        <li v-for="(word,index) in result" v-text="word" :class="{current:index==tag}"></li>
+    </ul>
+</div>
+<script>
+
+    new Vue({
+        el: "#itany",
+        data: {
+            //双向绑定搜索框上的数据
+            keyword: "",
+            //存放接口返回的数据
+            result: [],
+            //记录方向键移动到的当前的位置
+            tag: -1,
+        },
+        methods: {
+            seach(e) {
+                // 当按下方向键上和下的时候不请求数据
+                if (e.keyCode == 38 || e.keyCode == 40) {
+                    return
+                }
+                this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su', {
+                    params: {wd: this.keyword},
+                    jsonp: 'cb'
+                }).then(function (response) {
+                    console.log(response.data.s)
+                    this.result = response.data.s
+                }).catch(erre => {
+                    console.log(erre)
+                })
+            },
+            keyDown() {
+                console.log("aaa")
+                this.tag++
+                if (this.tag == this.result.length) {
+                    this.tag = 0
+                }
+                this.keyword = this.result[this.tag]
+
+            },
+            keuUp() {
+                console.log('bbb')
+                this.tag--
+                if (this.tag == -1) {
+                    this.tag = this.result.length - 1
+                }
+                this.keyword = this.result[this.tag]
+            }
+        }
+    })
+</script>
+</body>
+</html>

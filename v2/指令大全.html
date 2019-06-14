@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令大全</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .aa {
+            color: red;
+            background-color: gainsboro;
+        }
+    </style>
+</head>
+<body>
+<div id="itany">
+    <!--text_msg-->
+    <span v-text="text_msg"></span><br>
+    <!--html_msg-->
+    <span v-html="html_msg"></span><br>
+    <!--v-pre:v-pre主要用来跳过这个元素和它的子元素编译过程。可以用来显示原始的Mustache标签-->
+    <span v-pre>{{taojiji}}</span><br>
+    <input type="text" v-model="text_input"><br>
+    <span>{{text_input}}</span><br>
+    <!--v-once:只绑定一次-->
+    <span v-once>{{text_input}}</span><br><br><br>
+    <!--v-if-->
+    <a v-if="ok">####</a>
+    <!--v-else:需要配合v-if使用，不然无效-->
+    <a v-else="ok">$$$$$$</a></span><br><br><br>
+
+    <!--v-show:控制元素显示与隐藏-->
+    <button @click="show">点我显示和隐藏</button>
+    <br>
+    <div style="width: 100px;height: 100px;background-color: red" v-show="div_show"></div>
+    <ul v-for="(user,index) in users">
+        <li>{{index}}</li>
+        <li>{{user.name}}</li>
+        <li>{{user.age}}</li>
+        <li>{{user.emali}}</li>
+    </ul>
+
+    <!--v-bind-->
+    <img :src="img_url"><br>
+    <span v-text="span_text" :class="aa"></span><br>
+    <!--v-model修饰符-->
+    <input type="text" v-model.number="text_input1">
+    <input type="text" v-model.trim="text_input1">
+
+    <!--.stop 阻止事件继续传播-->
+    <!--.prevent 事件不再重载页面-->
+    <!--.once 事件将只会触发一次-->
+
+
+</div>
+<script>
+    new Vue({
+        el: "#itany",
+        data: {
+            text_msg: "taojiji",
+            html_msg: "<h3 style='color: red'>taojiji</h3>",
+            text_input: "default",
+            text_input1: "",
+            ok: true,
+            div_show: true,
+            users: [
+                {name: 'zhangsan', age: 18, emali: 'zhangsan@163.com'},
+                {name: 'lisi', age: 19, emali: 'lisi@163.com'},
+                {name: 'wangwu', age: 20, emali: 'wangwu@163.com'},
+            ],
+            img_url: "https://cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png",
+            span_text: "span_text",
+            aa: "aa",
+
+        },
+        methods: {
+            show() {
+                this.div_show = !this.div_show
+            }
+        }
+    })
+</script>
+</body>
+</html>

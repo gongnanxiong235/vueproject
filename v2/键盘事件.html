@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>键盘事件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <input type="text" @keydown.enter="showEnter" @keydown.up="showUp" @keydown.down="showDown" @keydown.a="showA"
+           @keydown.f1="showF1">
+    <!--只触发一次回调-->
+    <button @click.once="show">只触发一次回调</button>
+    <input type="text" @keydown.>
+</div>
+<script>
+    <!--自定义键盘事件-->
+    Vue.config.keyCodes = {
+        a: 65,
+        f1: 112
+    }
+    new Vue({
+        el: "#itany",
+        methods: {
+            showEnter() {
+                console.log("按下回车")
+            },
+            showUp() {
+                console.log("按下上键")
+            },
+            showDown() {
+                console.log("按下下键")
+            },
+            showA() {
+                console.log("按下A键")
+            },
+            showF1() {
+                console.log("按下F1键")
+            },
+            show() {
+                console.log("111111")
+            },
+        }
+    })
+</script>
+</body>
+</html>

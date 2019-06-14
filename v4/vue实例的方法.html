@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue实例的方法</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <span ref="title">{{msg}}</span><br>
+    <span>{{user.name}}:{{user.age}}岁,{{user.county}}</span><br>
+    <button @click="add">ADD</button>
+    <button @click="del">删除属性</button>
+    <hr>
+    <input type="text" v-model="msg1">{{msg1}}<br>
+    <input type="text" v-model="msg2">{{msg2}}<br>
+    <input type="text" v-model="user.age">{{user.age}}<br>
+    <input type="text" v-model="user.name">{{user.name}}<br>
+    <a href="#" v-if="bok">dianwo</a>
+
+</div>
+<script>
+    var vm = new Vue({
+        data: {
+            msg: "tom",
+            msg1: "",
+            msg2: "",
+            ok:true,
+            bok:false,
+            user: {
+                name: "zhangsan",
+                age: '18'
+            }
+        },
+        methods: {
+            add() {
+                //如果用普通的方式 this.user.age=18 这种方式不会被vue监视,所以属性是有了 但是无法渲染到页面中
+                if (this.user.age) {
+                    this.user.age++
+                } else {
+
+                    Vue.set(this.user, 'age', 18)
+                }
+
+                this.$set(this.user, 'county', 'zhongguo')
+            },
+            del() {
+                //删除属性
+                this.$delete(this.user, 'county')
+            }
+        },
+        watch: {
+            //方式2监听
+            msg2: function (newVal, oldVal) {
+                console.log('msg2的值发生改变了,旧值是:' + oldVal + "  新值是:" + newVal)
+            },
+
+            //当监听的是对象的值得时候，需用到深度监听
+            user: {
+                handler: function (newVal, oldVal) {
+                    console.log('user的值发生改变了,旧值是:' + oldVal + "  新值是:" + newVal)
+                },
+                deep: true
+            }
+        }
+    }).$mount("#itany") // 手动挂载==el:'#itany'
+
+    vm.$data.msg = "汤姆"
+    //数据更新完到DOM渲染需要时间，所以这个打印结果仍然是更新之前的数据 tom
+    console.log(vm.$refs.title.textContent)
+    //延迟更新：等到dom渲染完成后再获取到改变后的值
+    vm.$nextTick(function () {
+        console.log(vm.$refs.title.textContent)
+    })
+
+    //方式1进行监视
+    vm.$watch('msg1', function (newVal, oldVal) {
+        console.log('msg1的值发生改变了,旧值是:' + oldVal + "  新值是:" + newVal)
+    })
+
+
+</script>
+</body>
+</html>

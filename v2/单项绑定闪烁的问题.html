@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--用{{}}的方式单向绑定数据,当数据未被加载完成或者加载失败的时候会有闪烁的问题-->
+    <title>单向绑定闪烁的问题</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <!--直接使用{{}}-->
+    <h3>aaa:<span>{{msg}}</span></h3>
+    <!--1:cloak，需要在样式里面设置display==none-->
+    <h3>aaa:<span v-cloak>{{msg}}</span></h3>
+    <!--1:v-text-->
+    <h3>aaa:<span v-text="msg"></span></h3>
+    <!--1:v-html-->
+    <h3>aaa:<span v-html="msg"></span></h3>
+</div>
+<script>
+    new Vue({
+        el: "#itany",
+        data: {
+            msg: "taojiji"
+        },
+        created: function () {
+            alert(111)
+        }
+    })
+</script>
+</body>
+</html>

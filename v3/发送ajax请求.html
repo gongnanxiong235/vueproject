@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发送ajax请求</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/vue-resource.js"></script>
+</head>
+<body>
+<div id="itany">
+    <button @click="get_method">发送get请求1</button>
+    <button @click="send">请求远程服务器</button>
+    <button @click="sendGet">发送get请求2</button>
+    <button @click="vresource">vue-resource-get</button>
+    <br>
+    <button @click="post_method">发送post请求1</button>
+    <button @click="sendpOST">发送post请求2</button>
+</div>
+<script>
+    new Vue({
+        el: "#itany",
+        methods: {
+            //axios方式请求
+            get_method: function () {
+                axios({
+                    method: 'get',
+                    url: 'http://47.98.117.129:8000/api/v1.0/page2/?offset=1&limit=4',
+                }).then(function (response) {
+                    console.log(response)
+                }).catch(function (erre) {
+                    console.log(erre)
+                })
+            },
+            //ajax的方式
+            send() {
+                $.ajax({
+                    url: 'http://47.98.117.129:8000/api/v1.0/page2/?offset=1&limit=4',
+                    type: 'get',
+                    contentType: "application/json",
+                    success: function (response) {
+                        console.log("data:" + response.data.count)
+                    },
+                    error: function (data) {
+                        console.log("error:" + data)
+                    }
+                })
+            },
+            //vue-resource的方式
+            vresource() {
+                this.$http.get('http://47.98.117.129:8000/api/v1.0/page2/', {
+                    params: {
+                        offset: 1,
+                        limit: 4
+                    }
+                }).then(response => {
+                    console.log(response)
+                })
+            },
+            //axios方式请求
+            sendGet() {
+                axios.get('http://localhost:8000/api/v1.0/page2/?offset=1&limit=4', {}).then(function (response) {
+                    console.log(response)
+                }).catch(function (erre) {
+                    console.log(erre)
+                })
+            },
+            post_method() {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:8000/api/v1.0/auth/',
+                    data: 'user_name=gongxiaobao&password=111111'
+                }).then(function (response) {
+                    console.log(response)
+                }).catch(function (erre) {
+                    console.log(erre)
+                })
+            },
+            sendpOST() {
+
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件冒泡</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany" @click="show3">
+    <p @click="show2">
+        <!--<button @click="show1">点我</button>-->
+        <!--阻止事件冒泡-->
+        <button @click.stop="show1">点我</button>
+    </p>
+</div>
+<!--阻止默认行为-->
+<a href="#" @click.prevent="show4" id="aaa">######</a>
+<script>
+    new Vue({
+        el:"#itany",
+        data:{
+
+        },
+        methods:{
+            show1(){
+                console.log("111")
+            },
+            show2(){
+                console.log("222")
+            },
+            show3(){
+                console.log("333")
+            },
+
+        }
+    }),
+        new Vue({
+            el:"#aaa",
+            methods:{
+                show4(){
+                    console.log("444")
+                },
+            }
+        })
+</script>
+</body>
+</html>

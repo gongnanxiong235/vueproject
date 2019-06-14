@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue实例的属性</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="itany">
+    <h3 ref="hello">ref</h3>
+    {{msg}}{{age}}
+</div>
+<script>
+    var vm = new Vue({
+        el: "#itany",
+        data: {
+            msg: "welcome",
+            age: 18
+        },
+        name: 'gongnanxiong',
+        methods: {
+            show() {
+                return this.$el
+            }
+        },
+        computed: {
+            num: {
+                get: function () {
+                    return this.msg + " to shanghai"
+                }
+            }
+        }
+    })
+    //获取到vue对象绑定的dom对象
+    vm.$el.style.color = 'red'
+    //获取vue实例data中的属性值 也可以改变属性值
+    console.log(vm.$data.msg)
+    vm.$data.age = 19
+    //$options:获取自定义的属性
+    console.log(vm.$options.methods.show)
+    console.log(vm.$options.name)
+    console.log(vm.$options.computed.num.get())
+    //获取元素中有属性为ref的元素
+    vm.$refs.hello.style.color = 'green'
+</script>
+</body>
+</html>
