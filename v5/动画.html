@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画</title>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="click">点我</button>
+    <!--transition:可以实现动画效果-->
+    <!--使用第三方库animate 实现动画效果-->
+    <!--enter-active-class：进入时候的效果  leave-active-class：离开时候的效果 -->
+    <!--duration="{ enter: 6000, leave: 3000 }：动画持续的时间-->
+    <transition  enter-active-class="animated tada" leave-active-class="animated bounceOutRight"
+                :duration="{ enter: 2000, leave: 2000 }" v-on:after-enter="afterEnter">
+        <p v-if="show" style="color: red">hello</p>
+    </transition>
+
+</div>
+<script>
+    /**
+     * transition的钩子函数:默认有一个参数el 表示当前dom元素:
+     * <transition
+     v-on:before-enter="beforeEnter"
+     v-on:enter="enter"
+     v-on:after-enter="afterEnter"
+     v-on:enter-cancelled="enterCancelled"
+
+     v-on:before-leave="beforeLeave"
+     v-on:leave="leave"
+     v-on:after-leave="afterLeave"
+     v-on:leave-cancelled="leaveCancelled"
+     >
+     <!-- ... -->
+     </transition>
+     */
+    new Vue({
+        el: "#app",
+        data: {
+            show: true
+        },
+        methods: {
+            click: function () {
+                this.show = !this.show
+            },
+            //动画进入之后调用
+            afterEnter: function (el) {
+                el.style.color="green"
+            }
+        }
+    })
+</script>
+</body>
+</html>

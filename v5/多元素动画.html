@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多元素动画</title>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    <script src="../js/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            background: blueviolet;
+            width: 60px;
+            height: 60px;
+            margin: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="key">
+    <transition-group enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+        <p v-for="(w,k) in contents_result" :key="k+''">{{w}}</p>
+    </transition-group>
+
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            key: "",
+            contents: ['tom', 'tony', 'alisa', 'thenor', 'shelgb']
+        },
+        computed:{
+            contents_result:function () {
+                attrs=[]
+                for (let i = 0; i < this.contents.length; i++) {
+                    if(this.contents[i].includes(this.key)){
+                        attrs.push(this.contents[i])
+                    }
+
+                }
+                return attrs
+            }
+        },
+
+    })
+</script>
+</body>
+</html>
