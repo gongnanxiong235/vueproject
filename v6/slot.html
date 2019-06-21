@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slot</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <hello>
+        <input type="text">
+        <a href="https://www.baidu.com" slot="SS">baidu</a>
+    </hello>
+</div>
+<template id="aa">
+    <div>
+        <!--根据name属性来自定义显示哪个标签 显示在哪里，需要同时在标签中定义slot属性：slot="sss"-->
+        <slot name="SS"></slot>
+        <h3>我是内容</h3>
+        <!--用来显示自定义组件标签中添加的内容-->
+        <slot></slot>
+    </div>
+</template>
+<script>
+    new Vue({
+        el: "#app",
+        components: {
+            "hello": {
+                template: "#aa"
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

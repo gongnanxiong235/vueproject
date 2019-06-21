@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单向数据流</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <father></father>
+</div>
+<template id="f">
+    <div>
+        <input type="text" v-model="msg">
+        <input type="text" v-model="obj.name">
+        <hr>
+        <son :msg.sync="msg" :obj="obj"></son>
+    </div>
+</template>
+<template id="s">
+    <div>
+        <h3>{{msg}}</h3>
+
+        <!--结论:父元素数据发生改变，子元素类会自动发生改变，子元素不允许修改父元素传来的数据，会报错-->
+        <button @click="change">change</button>
+        <button @click="change1">change1</button>
+    </div>
+</template>
+<script>
+    new Vue({
+        el: "#app",
+        components: {
+            "father": {
+                template: "#f",
+                data: function () {
+                    return {
+                        msg: "tom",
+                        obj: {
+                            name: "zhangsan"
+                        }
+                    }
+                },
+                components: {
+                    "son": {
+                        template: "#s",
+                        props: ["msg", "obj"],
+                        data: function () {
+                            return {
+                                //方式1：可以把父组件的传递过来的数据赋给一个局部变量，然后进行修改，不影响父组件的值
+                                ssmsg: this.msg,
+                            }
+                        },
+                        methods: {
+                            change: function () {
+                                // this.ssmsg = "hello"
+                                //方式2：如果想子组件修改数据同步到父组件中使用:1.父组件给子自检传递绑定值得时候加上.sync(<son :msg.sync="msg"></son>)
+                                //2.this.$emit("update:msg","alix")
+                                this.$emit("update:msg", "alix")
+                            },
+                            // 方式3：JavaScript 中对象和数组是通过引用传入的，所以对于一个数组或对象类型的 prop 来说，在子组件中改变这个对象或数组本身将会影响到父组件的状态。
+                            //父组件要传递给子组件的值封装在一个对象里面，子组件再改变这个对象的值，间接的也改变了父组件的值，因为父子之间都是引用这个内存空间的指向
+                            change1: function () {
+                                this.obj.name = "wangwu"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

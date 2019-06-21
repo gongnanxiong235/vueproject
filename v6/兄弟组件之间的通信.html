@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>兄弟组件之间的通信</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-a></my-a>
+    <my-b></my-b>
+    <my-c></my-c>
+</div>
+<template id="a">
+    <div>
+        <h3>A组件:{{name}}</h3>
+        <button @click="ac">A组件的数据传递给C组件</button>
+    </div>
+</template>
+<template id="b">
+    <div>
+        <h3>B组件:{{age}}</h3>
+    </div>
+</template>
+<template id="c">
+    <div>
+        <h3>C组件:{{name}},{{age}}</h3>
+    </div>
+</template>
+<script>
+    var A = {
+        template: "#a",
+        data: function () {
+            return {
+                name: "zhangsan"
+            }
+        },
+        methods: {
+            ac: function () {
+                //自定义事件
+                Event.$emit("a-c", this.name)
+            }
+        }
+    }
+    var B = {
+        template: "#b",
+        data: function () {
+            return {
+                age: "18"
+            }
+        }
+    }
+    var C = {
+        template: "#c",
+        data: function () {
+            return {
+                name: "",
+                age: ""
+            }
+        },
+        mounted() {
+            //用于监听兄弟组件传递过来的数据，这里一定要用箭头函数，因为用function的方式会改变this的值，这里的this指的是Vue空对象
+            Event.$on("a-c", name => {
+                this.name = name
+            })
+        }
+    }
+    //空的Vue对象，用于兄弟组件之间传递数据
+    var Event = new Vue()
+    new Vue({
+        el: "#app",
+        components: {
+            "my-a": A,
+            "my-b": B,
+            "my-c": C,
+        }
+    })
+</script>
+</body>
+</html>

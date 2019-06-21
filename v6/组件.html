@@ -8,14 +8,60 @@
 <body>
 <div id="app">
     <hello></hello>
+    <br>
+    <my-hello></my-hello>
+    <gongnanxiong></gongnanxiong>
+
 </div>
+<!--template标签专门用于存放自定义组件的template内容，必须有一个根元素，且只有一个根元素-->
+<template id="gnx">
+    <div>
+        <h3>{{msg}}</h3>
+        <ul>
+            <li v-for="value in arr">{{value}}</li>
+        </ul>
+    </div>
+</template>
 <script>
     //自定义组件的方式
     Vue.component("hello", {
-        template: "<h3>hello,welcome</h3>>"
+        template: "<h3>{{name}}</h3>",
+        //data 后面是个函数 不是对象，如果有多个值 函数中return一个对象，然后包含多个值
+        data: function () {
+            return {
+                name: "zhangsan",
+            }
+        }
     })
-    new Vue({
-        el: "#app"
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            appname: 'app',
+            msg: "",
+            arr: ""
+        },
+        //选项的方式定义组件
+        components: {
+            "my-hello": {
+                template: "<h3>my-hello:{{myName}}</h3>",
+                data() {
+                    return {
+                        myName: "this.appname"
+                    }
+                }
+            },
+
+            //自定义组件，引用模板
+            'gongnanxiong': {
+                template: "#gnx",
+                data() {
+                    return {
+                        msg: 'gongnanxiongtest',
+                        arr: ['zhangsan', 'lisi', 'wangwu', 'zhaoliu']
+                    }
+                }
+            }
+        }
     })
 </script>
 </body>

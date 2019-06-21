@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+    <script src="../js/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="app">
+    <button @click="flag='hello'">A</button>
+    <button @click="flag='my-world'">B</button>
+    <!--动态的选择需要渲染的组件-->
+    <component :is="flag"></component>
+    <!--会缓存不活动的组件实例，而不是销毁它们-->
+    <keep-alive>
+        <component :is="flag"></component>
+    </keep-alive>
+    <!--和transition标签搭配一起实现动画效果-->
+    <transition enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+        <keep-alive>
+            <component :is="flag"></component>
+        </keep-alive>
+    </transition>
+
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            flag: 'hello'
+        },
+        components: {
+            "hello": {
+                template: '<h3>我是组件A:{{num}}</h3>',
+                data: function () {
+                    return {
+                        num: Math.random()
+                    }
+                }
+            },
+            "my-world": {
+                template: '<h3>我是组件B:{{num}}</h3>',
+                data: function () {
+                    return {
+                        num: Math.random()
+                    }
+                }
+            },
+        }
+    })
+</script>
+</body>
+</html>

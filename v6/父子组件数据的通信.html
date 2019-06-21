@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子组件数据的通信</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-hello></my-hello>
+</div>
+<template id="hello">
+    <div>
+        <h3>我是父亲</h3>
+        <h3>{{msg}},{{user.username}}</h3>
+        <h3>{{sonObj}},</h3>
+        <!--子组件只能在父组件下使用，父组件和子组件之间都不能相互访问对方的数据-->
+        <!--绑定的值不管是什么类型 都需要引号-->
+        <hr>
+        <!--v-on:get-message="getVal" 用来接收子元素传过来的数据  getVal(val): val为子元素传过来的数据-->
+        <my-world :msg="msg" :user="user" :age="age" :stu="stu" v-on:get-message="getVal"></my-world>
+    </div>
+</template>
+<template id="world">
+    <div>
+        <h3>我是儿子</h3>
+        <h3>{{msg_son}},{{pepole.username}}</h3>
+        <h3>{{age}},{{user.username}}</h3>
+        <button @click="sendData">向父组件传递数据</button>
+    </div>
+</template>
+
+<script>
+
+    new Vue({
+        el: "#app",
+        components: {
+            "my-hello": {
+                template: "#hello",
+                methods:{
+                    getVal:function(val){
+                        this.sonObj=val
+                    }
+                },
+                data() {
+                    return {
+                        msg: 'gongnanxiong',
+                        age: "30",
+                        arr: [1, 2, 3],
+                        stu: "success",
+                        user: {
+                            username: 'zhangsan'
+                        },
+                        sonObj:"",
+                    }
+
+                },
+                components: {
+                    "my-world": {
+                        template: "#world",
+                        // props 里面可以是一个数组，父组件传什么 子组件接收什么，也可以是对象，对传过来的数据进行校验
+                        // props: ['msg', 'user', "age"],
+                        props: {
+                            // 基础的类型检查 (`null` 和 `undefined` 会通过任何类型验证)
+                            // age: Number,
+                            // 多个可能的类型
+                            msg: [String, Number],
+                            // 必填的字符串
+                            arr: {
+                                type: Object,
+                                required: false
+                            },
+                            // 带有默认值的数字
+                            age: {
+                                type: [String, Number],
+                                default: 20
+                            },
+                            // 带有默认值的对象
+                            user: {
+                                type: Object,
+                                // 对象或数组默认值必须从一个工厂函数获取
+                                default: function () {
+                                    return {username: 'wangwu'}
+                                }
+                            },
+                            // 自定义验证函数
+                            stu: {
+                                validator: function (value) {
+                                    // 这个值必须匹配下列字符串中的一个
+                                    return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                                }
+                            }
+                        },
+                        data() {
+                            return {
+                                msg_son: "son",
+                                pepole: {
+                                    username: "wangwu"
+                                }
+                            }
+
+                        },
+                        methods: {
+                            sendData: function () {
+                                //在子组件中使用$emit方法，一般它接受两个参数，第一个是自定义事件(这个事件在父组件中需要用到)，第二个参数就是需要传的数据了
+                                //get-message  事件名  不能写成getMessage驼峰样式的  因为在html标签中 事件不区分大小写
+                                this.$emit("get-message", {
+                                    msg_son: this.msg_son,
+                                    pepole: this.pepole
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

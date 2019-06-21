@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由嵌套</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    <style>
+        .aa a {
+            text-decoration: none;
+        }
+
+        .activity {
+            color: bisque;
+        }
+
+        .bb {
+            list-style: none;
+        }
+
+        .bb li {
+            cursor: pointer;
+        }
+
+        .ll {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--router-link  默认会渲染程a标签 tag="li" 可以修改默认渲染的标签 -->
+    <p class="aa">
+        <router-link to="/home">主页</router-link>
+        <router-link to="/user">用户</router-link>
+    </p>
+    <!--路由嵌套动画效果-->
+    <transition enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+        <router-view></router-view>
+    </transition>
+    <hr>
+    <button @click="push">添加路由</button>
+    <button @click="replace">替换路由</button>
+</div>
+<template id="home">
+    <div>
+        <h3>我是主页</h3>
+    </div>
+</template>
+<template id="user">
+    <div>
+        <ul class="bb">
+            <!--正常风格的传参：接收方式为：$route.query-->
+            <router-link to="/user/regist?username=zhangsan&password=123456" tag="li">用户注册</router-link>
+            <!--restful风格的传参：接收方式为：$route.params 在定义路由的时候path后面需要以：参数名的方式：path: "login/:username/:password",-->
+            <router-link to="/user/login/wabngwu/123456" tag="li">用户登录</router-link>
+        </ul>
+        <!--路由嵌套动画效果-->
+        <transition enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+            <router-view></router-view>
+        </transition>
+
+    </div>
+</template>
+<template id="regist">
+    <div>
+        <h3>接收传递过来的参数为:{{$route.query}}；路径为{{$route.path}}</h3>
+        <table>
+            <tr>
+                <th class="ll">用户名:</th>
+                <th><input type="text"></th>
+            </tr>
+            <tr>
+                <th class="ll">密码:</th>
+                <th><input type="password"></th>
+            </tr>
+            <tr>
+                <th class="ll">再次输入密码:</th>
+                <th><input type="password"></th>
+            </tr>
+        </table>
+    </div>
+</template>
+<template id="login">
+    <div>
+        <h3>接收传递过来的参数为:{{$route.params}}；路径为{{$route.path}}</h3>
+        <table>
+            <tr>
+                <th class="ll">用户名:</th>
+                <th><input type="text"></th>
+            </tr>
+            <tr>
+                <th class="ll">密码:</th>
+                <th><input type="password"></th>
+            </tr>
+        </table>
+    </div>
+</template>
+<script>
+    var Home = {
+        template: "#home"
+    }
+    var User = {
+        template: "#user"
+    }
+    var Regist = {
+        template: "#regist"
+    }
+    var Login = {
+        template: "#login"
+    }
+    var routes = [
+        {
+            path: "/home",
+            component: Home
+        },
+        {
+            path: "/user",
+            component: User,
+            children: [
+                {
+                    path: "regist",
+                    component: Regist,
+                },
+                {
+                    path: "login/:username/:password",
+                    component: Login
+                }
+            ]
+        },
+        {
+            path: "/*",
+            redirect: "/home"
+        }
+
+    ]
+    var router = new VueRouter({
+        routes,
+        linkActiveClass: "activity"
+    })
+
+    new Vue({
+        el: "#app",
+        router,
+        methods: {
+            // router.push({path:"/home"}):添加/切换路由,这种方式会产生历史记录
+            push: function () {
+                router.push({path: "/home"})
+            },
+            //router.replace({path:"/user/login/gongnanxiong/123456"}):替换路由，这种方式不会产生历史记录
+            replace: function () {
+                router.replace({path: "/user/login/gongnanxiong/123456"})
+            }
+        }
+    })
+</script>
+</body>
+</html>
