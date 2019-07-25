@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器回顾</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{msg | filter1}}
+    {{msg | filter2}}
+</div>
+<script>
+    Vue.filter("filter2",function (data) {
+        if(data<10){
+            return "1"+data
+        }
+    })
+    new Vue({
+        el:"#app",
+        data:{
+            msg:5
+        },
+        filters:{
+            filter1:function (data) {
+                if(data<10){
+                    return "0"+data
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

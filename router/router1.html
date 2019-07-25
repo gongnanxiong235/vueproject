@@ -32,7 +32,7 @@
 </div>
 <template id="home">
     <div>
-        <h3>我是主页</h3>
+        <h3>我是主页{{msg}}</h3>
     </div>
 </template>
 <template id="news">
@@ -45,6 +45,11 @@
     // 可以从其他文件 import 进来
     var Home = {
         template: "#home",
+        data:function () {
+            return {
+                msg:'gongnanxiong'
+            }
+        }
     }
     var News = {
         template: "#news",

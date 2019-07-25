@@ -21,7 +21,7 @@
 </head>
 <body>
 <div id="app">
-    <input type="text" v-model="key">
+    <input type="text" v-model="key" @keyup="hello">
     <transition-group enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
         <p v-for="(w,k) in contents_result" :key="k+''">{{w}}</p>
     </transition-group>
@@ -34,6 +34,7 @@
             key: "",
             contents: ['tom', 'tony', 'alisa', 'thenor', 'shelgb']
         },
+        //响应式依赖key的值，当key的值发生改变，计算属性的值自动发生变化
         computed:{
             contents_result:function () {
                 attrs=[]

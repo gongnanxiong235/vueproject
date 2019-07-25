@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索练习</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-resource.js"></script>
+    <style>
+        li {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="seachWorld" @keyup="seach($event)">
+    <ul>
+        <li v-for="(key,index) in results" v-text="key"></li>
+    </ul>
+
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            seachWorld: "",
+            results: []
+        },
+        methods: {
+            seach(e) {
+                //当按下方向键上和下的时候不请求数据
+                if (e.keyCode == 38 || e.keyCode == 40) {
+                    return
+                }
+                this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su', {
+                    params: {wd: this.seachWorld},
+                    jsonp: 'cb'
+                }).then(function (response) {
+                    console.log(response.data.s)
+                    this.results = response.data.s
+                }).catch(erre => {
+                    console.log(erre)
+                })
+            }
+
+        }
+    })
+</script>
+</body>
+</html>
